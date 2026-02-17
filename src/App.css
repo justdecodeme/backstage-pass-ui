@@ -1,0 +1,53 @@
+/* 🎨 App.css — Minimal custom styles */
+/* Most styling handled by Tailwind CSS utility classes */
+
+/* 📜 Custom scrollbar for the main content area — light mode */
+main::-webkit-scrollbar {
+	width: 6px;
+}
+
+main::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+main::-webkit-scrollbar-thumb {
+	background: rgba(0, 0, 0, 0.15);
+	border-radius: 3px;
+}
+
+main::-webkit-scrollbar-thumb:hover {
+	background: rgba(0, 0, 0, 0.25);
+}
+
+/* 🌙 Dark mode scrollbar */
+@media (prefers-color-scheme: dark) {
+	main::-webkit-scrollbar-thumb {
+		background: rgba(255, 255, 255, 0.2);
+	}
+	main::-webkit-scrollbar-thumb:hover {
+		background: rgba(255, 255, 255, 0.35);
+	}
+}
+
+/* 📱 Hide scrollbar for horizontal day nav on mobile */
+.scrollbar-hide::-webkit-scrollbar {
+	display: none;
+}
+.scrollbar-hide {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+/* 🔤 Import Inter font for modern typography */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* 🌐 Set Inter as the base font */
+body {
+	font-family:
+		'Inter',
+		-apple-system,
+		BlinkMacSystemFont,
+		'Segoe UI',
+		'Roboto',
+		sans-serif;
+}
