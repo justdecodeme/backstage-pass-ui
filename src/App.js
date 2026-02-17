@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import SubHeader from './components/SubHeader';
 import Sidebar from './components/Sidebar';
@@ -10,7 +10,7 @@ import './App.css';
 // 🏠 App Component — Main page layout
 // Desktop: Header → SubHeader → (Sidebar | Main Content)
 // Mobile: MobileHeader (blur bg + nav + day tabs) → Main Content (full-width)
-// 🌙 Supports dark theme via system/browser preference
+// 🌙 Supports dark theme via URL ?theme= override OR system/browser preference
 // 🎯 Active day state is managed here and passed to children
 function App() {
 	// 📅 Track which day is currently selected (1-9)
@@ -18,6 +18,47 @@ function App() {
 
 	// 📊 Total number of days in the challenge
 	const totalDays = 9;
+
+	// 🌙 Theme management — URL ?theme= takes priority over system preference
+	useEffect(() => {
+		// 🔍 Read ?theme= from URL search params
+		const params = new URLSearchParams(window.location.search);
+		const urlTheme = params.get('theme'); // 'light', 'dark', or null
+
+		// 🎯 Determine if dark mode should be applied
+		const applyDark = () => {
+			if (urlTheme === 'dark') return true;
+			if (urlTheme === 'light') return false;
+			// 🖥️ Fallback: use system/browser preference
+			return window.matchMedia('(prefers-color-scheme: dark)').matches;
+		};
+
+		// 🔄 Apply or remove the 'dark' class on <html>
+		const updateTheme = () => {
+			if (applyDark()) {
+				document.documentElement.classList.add('dark');
+			} else {
+				document.documentElement.classList.remove('dark');
+			}
+		};
+
+		// ⚡ Apply theme on mount
+		updateTheme();
+
+		// 👂 Listen for system preference changes (only matters when no URL override)
+		const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+		const handleChange = () => {
+			// 🔒 Only react to system changes if URL doesn't override
+			if (!urlTheme) {
+				updateTheme();
+			}
+		};
+
+		mediaQuery.addEventListener('change', handleChange);
+
+		// 🧹 Cleanup listener on unmount
+		return () => mediaQuery.removeEventListener('change', handleChange);
+	}, []);
 
 	return (
 		<div className="min-h-screen bg-[#F7F6FC] dark:bg-[#1a1a1a] flex flex-col">

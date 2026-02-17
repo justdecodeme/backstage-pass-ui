@@ -1,4 +1,4 @@
-# 🏋️ 9-Day Fitness Challenge — UI Assignment
+# 🏋️ 9-Day Fitness Challenge — UI
 
 A pixel-perfect, responsive fitness challenge page built with **React** and **Tailwind CSS**. Supports **automatic light/dark theme** based on your system preferences.
 
